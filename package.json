@@ -1,13 +1,18 @@
 {
+  "main": "dist-electron/main.js",
   "name": "vite-template",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev-old": "vite",
+    "dev": "concurrently -k \"vite\" \"wait-on http://localhost:3000 && electron .\"",
+    "build-old": "tsc && vite build",
     "lint": "eslint --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build": "vite build && bun run build:electron",
+    "build:electron": "tsc -p electron",
+    "start": "electron ."
   },
   "dependencies": {
     "@heroui/badge": "^2.2.15",
@@ -29,13 +34,18 @@
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/vite": "4.1.11",
     "clsx": "2.1.1",
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12",
     "framer-motion": "11.18.2",
     "lucide-react": "^0.525.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "6.23.0",
     "tailwind-variants": "1.0.0",
-    "tailwindcss": "4.1.11"
+    "tailwindcss": "4.1.11",
+    "wait-on": "^8.0.3"
   },
   "devDependencies": {
     "@eslint/compat": "1.2.8",
@@ -62,5 +72,22 @@
     "typescript": "5.6.3",
     "vite": "5.2.0",
     "vite-tsconfig-paths": "4.3.2"
+  },
+  "build": {
+    "appId": "com.winassist.app",
+    "productName": "WinAssistApp",
+    "files": [
+      "dist/",
+      "dist-electron/",
+      "node_modules/"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
   }
 }
