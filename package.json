@@ -1,5 +1,5 @@
 {
-  "main": "dist-electron/main.js",
+  "main": "dist-electron/main.cjs",
   "name": "vite-template",
   "private": true,
   "version": "0.0.0",
